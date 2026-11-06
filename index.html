@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lokalne Wydarzenia - Liquid Glass</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Animowane tło w ciemnych, kontrastowych barwach dla efektu szkła */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #0f172a, #312e81, #1e3a8a, #0891b2);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            font-family: 'Inter', sans-serif;
+            color: #f8fafc;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Główne klasy Liquid Glass */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border-radius: 1.5rem;
+        }
+
+        .glass-button {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #e2e8f0;
+        }
+
+        .glass-button:hover, .glass-button.active {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .glass-input {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+        
+        .glass-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .glass-input:focus {
+            outline: none;
+            border-color: rgba(34, 211, 238, 0.5); /* Cyan border on focus */
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.2);
+        }
+
+        /* Karty wydarzeń */
+        .event-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .event-image {
+            height: 220px;
+            width: 100%;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .badge {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto space-y-8">
+        
+        <!-- Header & Wyszukiwarka -->
+        <header class="glass-panel p-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <h1 class="text-4xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-200 drop-shadow-sm">
+                LocalEvents
+            </h1>
+            <input type="text" id="searchInput" placeholder="Szukaj wydarzeń (np. giełda, rolki, Monachium)..." 
+                   class="glass-input px-6 py-3 rounded-full w-full md:w-1/2 text-sm transition-all">
+        </header>
+
+        <!-- Sekcja Filtrów -->
+        <section class="glass-panel p-6 space-y-6">
+            
+            <!-- Filtry Powiatów -->
+            <div>
+                <h3 class="text-xs font-bold uppercase tracking-widest text-cyan-200 mb-3 ml-2 opacity-90 flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    Wybierz Region
+                </h3>
+                <div class="flex flex-wrap gap-3" id="regionFilters">
+                    <button class="glass-button active px-5 py-2.5 rounded-full text-sm font-medium" data-region="Wszystkie">Wszystkie</button>
+                    <button class="glass-button px-5 py-2.5 rounded-full text-sm font-medium" data-region="Aichach">Aichach</button>
+                    <button class="glass-button px-5 py-2.5 rounded-full text-sm font-medium" data-region="Dachau">Dachau</button>
+                    <button class="glass-button px-5 py-2.5 rounded-full text-sm font-medium" data-region="Augsburg">Augsburg</button>
+                    <button class="glass-button px-5 py-2.5 rounded-full text-sm font-medium" data-region="Neuburg-Schrobenhausen">Neuburg-Schrobenhausen</button>
+                    <button class="glass-button px-5 py-2.5 rounded-full text-sm font-medium" data-region="Fürstenfeldbruck">Fürstenfeldbruck</button>
+                    <button class="glass-button px-5 py-2.5 rounded-full text-sm font-medium" data-region="Monachium">Monachium</button>
+                </div>
+            </div>
+
+            <!-- Filtry Kategorii -->
+            <div>
+                <h3 class="text-xs font-bold uppercase tracking-widest text-blue-200 mb-3 ml-2 opacity-90 flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+                    Wybierz Kategorię
+                </h3>
+                <div class="flex flex-wrap gap-3" id="categoryFilters">
+                    <button class="glass-button active px-5 py-2.5 rounded-full text-sm font-medium" data-category="Wszystkie">Wszystkie</button>
+                    <button class="glass-button px-5 py-2.5 rounded-full text-sm font-medium" data-category="Pchle Targi & Giełdy">Pchle Targi & Giełdy</button>
+                    <button class="glass-button px-5 py-2.5 rounded-full text-sm font-medium" data-category="Sporty Ekstremalne">Sporty Ekstremalne</button>
+                    <button class="glass-button px-5 py-2.5 rounded-full text-sm font-medium" data-category="Sport & Rekreacja">Sport & Rekreacja</button>
+                    <button class="glass-button px-5 py-2.5 rounded-full text-sm font-medium" data-category="Kulinaria">Kulinaria & BBQ</button>
+                </div>
+            </div>
+            
+        </section>
+
+        <!-- Siatka Wydarzeń -->
+        <main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="eventsGrid">
+            <!-- Tutaj zostaną wygenerowane karty -->
+        </main>
+
+    </div>
+
+    <script>
+        // Rozbudowana baza danych wydarzeń
+        const events = [
+            {
+                title: "Wielki Pchli Targ (Flohmarkt)",
+                date: "Sobota, 14 Listopada",
+                location: "Volksfestplatz, Aichach",
+                region: "Aichach",
+                category: "Pchle Targi & Giełdy",
+                image: "https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&q=80&w=800",
+                description: "Zabytki, narzędzia, antyki i setki stanowisk na świeżym powietrzu."
+            },
+            {
+                title: "Red Bull Munich Supercross",
+                date: "Piątek, 20 Listopada",
+                location: "Olympiahalle, Monachium",
+                region: "Monachium",
+                category: "Sporty Ekstremalne",
+                image: "https://images.unsplash.com/photo-1549466336-d762f0267277?auto=format&fit=crop&q=80&w=800",
+                description: "Najlepsi zawodnicy FMX, Monster Energy i ogromne hopy na największej arenie."
+            },
+            {
+                title: "Ski-Markt (Giełda Narciarska)",
+                date: "Niedziela, 22 Listopada",
+                location: "Hala Sportowa, Dachau",
+                region: "Dachau",
+                category: "Pchle Targi & Giełdy",
+                image: "https://images.unsplash.com/photo-1551524559-8af4e6624178?auto=format&fit=crop&q=80&w=800",
+                description: "Kup i sprzedaj używany sprzęt przed sezonem. Narty alpejskie, buty i kaski."
+            },
+            {
+                title: "Kinderflohmarkt",
+                date: "Sobota, 28 Listopada",
+                location: "Stadthalle, Augsburg",
+                region: "Augsburg",
+                category: "Pchle Targi & Giełdy",
+                image: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&q=80&w=800",
+                description: "Wielka wyprzedaż ubranek dziecięcych, wózków i zabawek z drugiej ręki."
+            },
+            {
+                title: "Otwarte Zawody Inline Skating",
+                date: "Niedziela, 29 Listopada",
+                location: "Lokalne ścieżki, Fürstenfeldbruck",
+                region: "Fürstenfeldbruck",
+                category: "Sport & Rekreacja",
+                image: "https://images.unsplash.com/photo-1518118014377-ce6a147e4eb1?auto=format&fit=crop&q=80&w=800",
+                description: "Zawody długodystansowe na gładkim asfalcie. Trasa idealna pod rolki fitness (koła 84-90mm)."
+            },
+            {
+                title: "X-Games Skate & BMX",
+                date: "Sobota, 5 Grudnia",
+                location: "Olympiapark, Monachium",
+                region: "Monachium",
+                category: "Sporty Ekstremalne",
+                image: "https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&q=80&w=800",
+                description: "Zawody w skateparku, muzyka na żywo, BMX i strefa food trucków."
+            },
+            {
+                title: "Festiwal Kociołków i BBQ",
+                date: "Niedziela, 6 Grudnia",
+                location: "Rynek, Neuburg-Schrobenhausen",
+                region: "Neuburg-Schrobenhausen",
+                category: "Kulinaria",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=80&w=800",
+                description: "Konkurs na najlepszy kociołek nad ogniskiem (bogrács) oraz strefa mięs z offsetowych wędzarni."
+            }
+        ];
+
+        let currentRegion = 'Wszystkie';
+        let currentCategory = 'Wszystkie';
+        let searchQuery = '';
+
+        const grid = document.getElementById('eventsGrid');
+        const searchInput = document.getElementById('searchInput');
+
+        function renderEvents() {
+            grid.innerHTML = '';
+            
+            const filteredEvents = events.filter(event => {
+                const matchRegion = currentRegion === 'Wszystkie' || event.region === currentRegion;
+                const matchCategory = currentCategory === 'Wszystkie' || event.category === currentCategory;
+                const matchSearch = event.title.toLowerCase().includes(searchQuery) || 
+                                    event.location.toLowerCase().includes(searchQuery) ||
+                                    event.description.toLowerCase().includes(searchQuery);
+                
+                return matchRegion && matchCategory && matchSearch;
+            });
+
+            if (filteredEvents.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-16">
+                        <div class="inline-block p-6 glass-panel text-white/60">
+                            <svg class="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <p class="text-lg">Brak wydarzeń spełniających wybrane kryteria.</p>
+                        </div>
+                    </div>`;
+                return;
+            }
+
+            filteredEvents.forEach(event => {
+                const card = document.createElement('article');
+                card.className = 'glass-panel event-card flex flex-col relative group cursor-pointer';
+                
+                card.innerHTML = `
+                    <div class="relative overflow-hidden">
+                        <img src="${event.image}" alt="${event.title}" class="event-image group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-transparent opacity-60"></div>
+                        <span class="absolute top-4 right-4 badge text-xs font-bold px-3 py-1.5 rounded-full text-cyan-100 uppercase tracking-wider">
+                            ${event.category}
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="text-xs text-blue-300 font-extrabold mb-2 tracking-widest uppercase flex items-center">
+                            <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-2 animate-pulse"></span>
+                            ${event.region}
+                        </div>
+                        <h2 class="text-xl font-bold mb-3 text-white leading-snug drop-shadow-md">${event.title}</h2>
+                        <p class="text-sm text-gray-300 mb-6 line-clamp-3 leading-relaxed">${event.description}</p>
+                        
+                        <div class="mt-auto space-y-3 pt-5 border-t border-white/10">
+                            <div class="flex items-center text-sm font-medium text-gray-200">
+                                <svg class="w-4 h-4 mr-3 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                ${event.date}
+                            </div>
+                            <div class="flex items-center text-sm font-medium text-gray-200">
+                                <svg class="w-4 h-4 mr-3 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                ${event.location}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Obsługa filtrów (Regiony)
+        document.querySelectorAll('#regionFilters button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('#regionFilters button').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentRegion = e.target.getAttribute('data-region');
+                renderEvents();
+            });
+        });
+
+        // Obsługa filtrów (Kategorie)
+        document.querySelectorAll('#categoryFilters button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('#categoryFilters button').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentCategory = e.target.getAttribute('data-category');
+                renderEvents();
+            });
+        });
+
+        // Obsługa wyszukiwarki
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase();
+            renderEvents();
+        });
+
+        // Inicjalne renderowanie
+        renderEvents();
+    </script>
+</body>
+</html>
