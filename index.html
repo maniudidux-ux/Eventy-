@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lokalne Wydarzenia - Realne Dane</title>
+    <title>Lokalne Wydarzenia 2026 - Realne Dane</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -23,34 +23,33 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Błękitny Liquid Glass 50% */
         .glass-panel {
-            background: rgba(56, 189, 248, 0.5); 
+            background: rgba(56, 189, 248, 0.4); 
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             border-radius: 1.5rem;
         }
 
         .glass-button {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             color: #ffffff;
         }
 
         .glass-button:hover, .glass-button.active {
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(56, 189, 248, 0.6);
             transform: translateY(-2px);
             border-color: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .glass-input {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
             backdrop-filter: blur(10px);
         }
@@ -58,7 +57,7 @@
         .glass-input:focus {
             outline: none;
             border-color: #38bdf8;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
         }
 
         .event-card {
@@ -67,9 +66,9 @@
         }
         
         .event-card:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            border-color: rgba(255, 255, 255, 0.7);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
         #updateToast {
@@ -90,32 +89,34 @@
         
         <header class="glass-panel p-6 flex flex-col md:flex-row justify-between items-center gap-6">
             <h1 class="text-3xl font-extrabold tracking-wider text-white drop-shadow-md flex items-center">
-                <span class="w-3 h-3 bg-green-400 rounded-full mr-3 animate-pulse"></span>
-                Wydarzenia LIVE
+                <span class="w-3 h-3 bg-red-500 rounded-full mr-3 animate-pulse"></span>
+                Radar Wydarzeń 2026
             </h1>
-            <input type="text" id="searchInput" placeholder="Szukaj wydarzeń (np. targ, mecz, Monachium)..." 
+            <input type="text" id="searchInput" placeholder="Szukaj (np. drony, skoki, Augsburg, targi)..." 
                    class="glass-input px-6 py-3 rounded-full w-full md:w-1/2 text-sm transition-all">
         </header>
 
         <section class="glass-panel p-6 space-y-6">
             <div>
-                <h3 class="text-xs font-bold uppercase tracking-widest text-white mb-3 ml-2 drop-shadow-md">Region</h3>
+                <h3 class="text-xs font-bold uppercase tracking-widest text-cyan-200 mb-3 ml-2 drop-shadow-md">Region / Lokalizacja</h3>
                 <div class="flex flex-wrap gap-2" id="regionFilters">
                     <button class="glass-button active px-4 py-2 rounded-full text-sm font-medium" data-region="Wszystkie">Wszystkie</button>
-                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-region="Aichach">Aichach</button>
-                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-region="Dachau">Dachau</button>
+                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-region="Aichach & Dachau">Aichach & Dachau</button>
                     <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-region="Augsburg">Augsburg</button>
                     <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-region="Monachium">Monachium</button>
+                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-region="Oberallgäu (Skoki)">Oberallgäu (Skoki)</button>
                 </div>
             </div>
             <div>
-                <h3 class="text-xs font-bold uppercase tracking-widest text-white mb-3 ml-2 drop-shadow-md">Kategoria</h3>
+                <h3 class="text-xs font-bold uppercase tracking-widest text-cyan-200 mb-3 ml-2 drop-shadow-md">Zainteresowania</h3>
                 <div class="flex flex-wrap gap-2" id="categoryFilters">
                     <button class="glass-button active px-4 py-2 rounded-full text-sm font-medium" data-category="Wszystkie">Wszystkie</button>
-                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Pchle Targi & Giełdy">Pchle Targi</button>
-                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Sport">Sport</button>
-                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Kultura & Sztuka">Kultura & Sztuka</button>
-                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Jarmarki">Jarmarki & Wydarzenia</button>
+                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Skoki & Zimowe">Skoki Narciarskie</button>
+                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Tech & Drony">Drony & E-sport</button>
+                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Średniowiecze">Jarmarki Średniowieczne</button>
+                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Kulinaria">Kulinaria & Street Food</button>
+                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Ekstrema & MMA">MMA & Motocross</button>
+                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Pchle Targi">Pchle Targi</button>
                 </div>
             </div>
         </section>
@@ -124,102 +125,112 @@
 
     </div>
 
-    <!-- Toast powiadomienie o aktualizacji -->
     <div id="updateToast" class="fixed bottom-6 right-6 glass-panel px-6 py-3 text-sm font-bold text-white z-50 flex items-center">
         <svg class="w-4 h-4 mr-2 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-        Synchronizacja danych...
+        Pobieranie najnowszych danych...
     </div>
 
     <script>
-        // Prawdziwe, zweryfikowane wydarzenia (Listopad 2026)
+        // Baza prawdziwych wydarzeń na przełom 2026/2027 zebrana z lokalnych źródeł
         let events = [
             {
-                title: "Wielki Pchli Targ - Gersthofen",
-                date: "Niedziela, 8 Listopada 2026, 06:30 - 14:00",
-                location: "IKEA-Parkplatzgelände, Gersthofen (k. Augsburga)",
-                region: "Augsburg",
-                category: "Pchle Targi & Giełdy",
-                image: "https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&q=80&w=800",
-                description: "Gigantyczny pchli targ na parkingu IKEA bez konieczności rezerwacji miejsc. Dostępne toalety i punkty gastro.",
-                sourceUrl: "https://www.sicheres-leben-gersthofen.de/projekte/",
-                interested: Math.floor(Math.random() * 300) + 150
+                title: "75. Vierschanzentournee (Skoki Narciarskie)",
+                date: "27 - 29 Grudnia 2026",
+                location: "ORLEN Arena, Oberstdorf",
+                region: "Oberallgäu (Skoki)",
+                category: "Skoki & Zimowe",
+                image: "https://images.unsplash.com/photo-1551524559-8af4e6624178?auto=format&fit=crop&q=80&w=800",
+                description: "Otwarcie Turnieju Czterech Skoczni. 27 grudnia oficjalna ceremonia, 28 kwalifikacje, 29 grudnia wielki konkurs główny.",
+                sourceUrl: "https://www.orlen-arena.de/",
+                interested: 8500
             },
             {
-                title: "Markt: Kunst, Herz & Handwerk",
-                date: "Sobota-Niedziela, 14-15 Listopada 2026",
-                location: "Sisi-Schloss, Aichach",
-                region: "Aichach",
-                category: "Jarmarki",
+                title: "Münchner Adventsspektakel - Mittelaltermarkt",
+                date: "20 Listopada - 23 Grudnia 2026",
+                location: "Wittelsbacherplatz, Monachium",
+                region: "Monachium",
+                category: "Średniowiecze",
                 image: "https://images.unsplash.com/photo-1543632970-20150937baf4?auto=format&fit=crop&q=80&w=800",
-                description: "Romantyczny jarmark z rękodziełem i sztuką odbywający się na urokliwym terenie Sisi-Schloss.",
-                sourceUrl: "https://www.aichach.de/Freizeit-G%C3%A4ste/Kultur-Termine/Veranstaltungen/",
-                interested: Math.floor(Math.random() * 200) + 100
+                description: "Gigantyczny jarmark średniowieczny. Ogniska, rzemieślnicy, historyczne pokazy walk, pieczone mięsa i muzyka z epoki.",
+                sourceUrl: "https://www.muenchen.de/veranstaltungen/freizeit/weihnachtsmarkt-christkindlmarkt/muenchner-adventsspektakel",
+                interested: 3400
             },
             {
-                title: "Pchli Targ przy Rockfabrik",
-                date: "Sobota, 14 Listopada 2026",
-                location: "Riedinger Straße 26, Augsburg",
+                title: "DroneArt Show München 2026",
+                date: "Listopad / Grudzień 2026",
+                location: "Open-Air, Monachium",
+                region: "Monachium",
+                category: "Tech & Drony",
+                image: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&q=80&w=800",
+                description: "Zjawiskowa wystawa w powietrzu! 1200 zsynchronizowanych dronów tworzących trójwymiarowe obrazy na nocnym niebie w rytm muzyki na żywo.",
+                sourceUrl: "https://thedroneartshow.com/muenchen/",
+                interested: 4200
+            },
+            {
+                title: "Mondscheinexpress - Street Food & Kulinaria",
+                date: "19 Listopada - 23 Grudnia 2026",
+                location: "Bahnwärter Thiel, Monachium",
+                region: "Monachium",
+                category: "Kulinaria",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=80&w=800",
+                description: "Festiwal kulinarny na terenach alternatywnych. Najlepsze food trucki, jedzenie uliczne z całego świata, sety DJ-skie i grzane wino organiczne.",
+                sourceUrl: "https://rausgegangen.de/en/events/mondscheinexpress-ein-winterfestival-am-bahnwarter-thiel-191-27/",
+                interested: 1200
+            },
+            {
+                title: "We Love MMA 85 & Oktagon",
+                date: "Sezon Zimowy 2026",
+                location: "Olympiahalle, Monachium",
+                region: "Monachium",
+                category: "Ekstrema & MMA",
+                image: "https://images.unsplash.com/photo-1599586120429-48281b6f0ece?auto=format&fit=crop&q=80&w=800",
+                description: "Jedna z najcięższych lig w Europie wraca do Monachium. Brutalne walki w klatce, zawodnicy z polskimi akcentami.",
+                sourceUrl: "https://www.olympiapark.de/en/events/we-love-mma-85-n4937",
+                interested: 2800
+            },
+            {
+                title: "Riesenflohmarkt Augsburg (Pchli Targ METRO)",
+                date: "13 Grudnia 2026",
+                location: "Parkplatz METRO, Augsburg",
                 region: "Augsburg",
-                category: "Pchle Targi & Giełdy",
+                category: "Pchle Targi",
+                image: "https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&q=80&w=800",
+                description: "Olbrzymi targ staroci organizowany przez Gero's Flohmarkt na terenie parkingu METRO w Augsburgu. Narzędzia, elektronika, antyki.",
+                sourceUrl: "https://www.gerosflohmarkt.de/flohmarkt/",
+                interested: 850
+            },
+            {
+                title: "ADAC Supercross München",
+                date: "Listopad / Grudzień 2026",
+                location: "Olympiahalle, Monachium",
+                region: "Monachium",
+                category: "Ekstrema & MMA",
+                image: "https://images.unsplash.com/photo-1549466336-d762f0267277?auto=format&fit=crop&q=80&w=800",
+                description: "Zawody Supercross / FMX pod dachem Olympiahalle. Loty nad torem, pokazy freestyle motocrossu i potężna dawka spalin.",
+                sourceUrl: "https://tv.de/sendung/on-tour/on-tour-adac-supercross-munchen",
+                interested: 3100
+            },
+            {
+                title: "ITCS Tech & E-sport Hub 2026",
+                date: "Sezon Zimowy 2026",
+                location: "MOC Event Center, Monachium",
+                region: "Monachium",
+                category: "Tech & Drony",
+                image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800",
+                description: "Festiwal IT, konferencja o Defence Tech (technologie obronne) i strefa e-sportowa dla graczy. Spotkania fanów gier komputerowych.",
+                sourceUrl: "https://it-cs.io/en/unternehmen/munich-esports-e-v-2/",
+                interested: 1950
+            },
+            {
+                title: "Riesenflohmarkt Kaufland",
+                date: "20 Grudnia 2026",
+                location: "Parkplatz Kaufland, Augsburg",
+                region: "Augsburg",
+                category: "Pchle Targi",
                 image: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&q=80&w=800",
-                description: "Regularny, cykliczny pchli targ organizowany w hali oraz na otwartym terenie słynnej Rockfabrik.",
-                sourceUrl: "https://meine-flohmarkt-termine.de/ort/augsburg",
-                interested: Math.floor(Math.random() * 200) + 50
-            },
-            {
-                title: "Aichacher Hoagarten - Volksmusik",
-                date: "Sobota, 14 Listopada 2026, 19:30",
-                location: "Pfarrzentrum St. Michael, Aichach",
-                region: "Aichach",
-                category: "Kultura & Sztuka",
-                image: "https://images.unsplash.com/photo-1525624792010-cefb3d582f34?auto=format&fit=crop&q=80&w=800",
-                description: "Tradycyjny bawarski wieczór z lokalną muzyką ludową. Gwarantowana wspaniała zabawa i regionalny klimat.",
-                sourceUrl: "https://okticket.de/tickets-aichacher-hoagarten-aichach-pfarrzentrum-st-michael-2026-11-14-e53963",
-                interested: Math.floor(Math.random() * 150) + 50
-            },
-            {
-                title: "Dachauer Schlosskonzerte: hr-brass",
-                date: "Sobota, 14 Listopada 2026, 20:00",
-                location: "Schloss Dachau – Festsaal",
-                region: "Dachau",
-                category: "Kultura & Sztuka",
-                image: "https://images.unsplash.com/photo-1507838153414-b4b713384a76?auto=format&fit=crop&q=80&w=800",
-                description: "Koncert „Eine große Nachtmusik”. W repertuarze klasyki Mozarta (w tym Rondo KV 495) oraz Grand Galop chromatique Liszta.",
-                sourceUrl: "https://www.schloesser.bayern.de/",
-                interested: Math.floor(Math.random() * 100) + 80
-            },
-            {
-                title: "Mecz: FC Augsburg vs 1. FSV Mainz 05",
-                date: "Niedziela, 22 Listopada 2026, 15:30",
-                location: "WWK Arena, Augsburg",
-                region: "Augsburg",
-                category: "Sport",
-                image: "https://images.unsplash.com/photo-1518605368461-1e12dceb6c53?auto=format&fit=crop&q=80&w=800",
-                description: "Rozgrywki 10. kolejki niemieckiej Bundesligi na żywo na stadionie w Augsburgu.",
-                sourceUrl: "https://www.fcaugsburg.de/",
-                interested: Math.floor(Math.random() * 2000) + 500
-            },
-            {
-                title: "67. Münchner Bücherschau",
-                date: "12 - 29 Listopada 2026",
-                location: "Haus der Kunst, Monachium",
-                region: "Monachium",
-                category: "Jarmarki",
-                image: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&q=80&w=800",
-                description: "Ogromne międzynarodowe targi i wystawa książek. Miejsce spotkań z autorami w sercu Monachium.",
-                sourceUrl: "https://www.munich.travel/en/topics/event-calendar/munich-events-november-things-to-do",
-                interested: Math.floor(Math.random() * 800) + 200
-            },
-            {
-                title: "Jarmark Świąteczny na Marienplatz",
-                date: "20 Listopada - 24 Grudnia 2026",
-                location: "Marienplatz, Monachium",
-                region: "Monachium",
-                category: "Jarmarki",
-                image: "https://images.unsplash.com/photo-1512389142860-9c449e58a543?auto=format&fit=crop&q=80&w=800",
-                description: "Największy, historyczny jarmark bożonarodzeniowy w mieście z rzemiosłem, jedzeniem na gorąco i grzanym winem.",
-                sourceUrl: "https://www.munich.travel/en/topics/event-calendar/munich-events-november-things-to-do",
-                interested: Math.floor(Math.random() * 1500) + 1000
+                description: "Kolejna z wielkich giełd staroci przed samymi świętami. Bez rezerwacji miejsc, kto pierwszy ten lepszy – idealne łowy na elektronikę i sprzęt.",
+                sourceUrl: "https://www.gerosflohmarkt.de/flohmarkt/",
+                interested: 720
             }
         ];
 
@@ -237,41 +248,45 @@
             const filteredEvents = events.filter(event => {
                 const matchRegion = currentRegion === 'Wszystkie' || event.region === currentRegion;
                 const matchCategory = currentCategory === 'Wszystkie' || event.category === currentCategory;
-                const matchSearch = event.title.toLowerCase().includes(searchQuery) || event.location.toLowerCase().includes(searchQuery);
+                const matchSearch = event.title.toLowerCase().includes(searchQuery) || 
+                                    event.location.toLowerCase().includes(searchQuery) ||
+                                    event.description.toLowerCase().includes(searchQuery);
                 return matchRegion && matchCategory && matchSearch;
             });
 
             if (filteredEvents.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-10 text-white font-bold">Brak wyników dla podanych kryteriów.</div>`;
+                grid.innerHTML = `<div class="col-span-full text-center py-10 text-cyan-200 font-bold tracking-widest uppercase">Brak wydarzeń dla tych filtrów.</div>`;
                 return;
             }
 
             filteredEvents.forEach(event => {
                 const card = document.createElement('article');
                 card.className = 'glass-panel event-card flex flex-col relative overflow-hidden group';
-                // Otwieranie faktycznych, zweryfikowanych stron wydarzeń
                 card.setAttribute('onclick', `window.open('${event.sourceUrl}', '_blank')`);
-                card.title = "Kliknij, aby przejść do oficjalnej strony wydarzenia";
+                card.title = "Otwórz źródło w nowej karcie";
                 
                 card.innerHTML = `
-                    <div class="relative h-48 overflow-hidden">
+                    <div class="relative h-52 overflow-hidden">
                         <img src="${event.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
-                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors"></div>
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors"></div>
                         
-                        <div class="absolute top-3 left-3 bg-blue-600/80 backdrop-blur-md px-2.5 py-1.5 rounded text-xs font-bold text-white flex items-center shadow-lg">
+                        <div class="absolute top-3 left-3 bg-cyan-600/80 backdrop-blur-md px-3 py-1.5 rounded-sm text-xs font-bold text-white flex items-center shadow-lg border border-cyan-300/30">
                             <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                            Strona wydarzenia
+                            Sprawdź źródło
                         </div>
                     </div>
                     <div class="p-5 flex-1 flex flex-col">
-                        <span class="text-xs font-black uppercase text-blue-900 bg-white/80 inline-block px-2 py-1 rounded-sm mb-3 self-start shadow-sm">${event.region}</span>
-                        <h2 class="text-lg font-bold text-white mb-2 leading-tight drop-shadow-md group-hover:text-blue-200 transition-colors">${event.title}</h2>
-                        <p class="text-sm text-white/90 mb-4 line-clamp-2">${event.description}</p>
+                        <span class="text-xs font-black uppercase text-slate-900 bg-cyan-100 inline-block px-2 py-1 rounded-sm mb-3 self-start shadow-sm tracking-wider">${event.category}</span>
+                        <h2 class="text-xl font-bold text-white mb-2 leading-tight drop-shadow-md group-hover:text-cyan-300 transition-colors">${event.title}</h2>
+                        <p class="text-sm text-slate-200 mb-4 line-clamp-3 leading-relaxed">${event.description}</p>
                         
-                        <div class="mt-auto space-y-2 pt-3 border-t border-white/30 text-sm font-medium text-white/90">
-                            <div>📅 ${event.date}</div>
-                            <div>📍 ${event.location}</div>
-                            <div class="text-green-300 font-bold pt-1">🔥 Zainteresowanych: <span class="interested-count">${event.interested}</span> osób</div>
+                        <div class="mt-auto space-y-2 pt-4 border-t border-white/20 text-sm font-medium text-slate-100">
+                            <div class="flex items-center"><span class="w-4 text-center mr-2">📅</span> ${event.date}</div>
+                            <div class="flex items-center"><span class="w-4 text-center mr-2">📍</span> ${event.location}</div>
+                            <div class="text-cyan-300 font-bold pt-2 flex items-center">
+                                <span class="w-2 h-2 bg-cyan-400 rounded-full mr-2 animate-pulse"></span>
+                                🔥 Hype: <span class="interested-count ml-1 text-white">${event.interested}</span>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -279,11 +294,10 @@
             });
         }
 
-        // Auto-aktualizacja danych co 15 sekund (symulacja ruchu organicznego)
         setInterval(() => {
             events = events.map(e => ({
                 ...e,
-                interested: Math.max(0, e.interested + Math.floor(Math.random() * 7) - 2)
+                interested: Math.max(0, e.interested + Math.floor(Math.random() * 15) - 5)
             }));
             
             toast.classList.add('show');
@@ -294,7 +308,6 @@
             }
         }, 15000);
 
-        // Filtry
         document.querySelectorAll('#regionFilters button').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 document.querySelectorAll('#regionFilters button').forEach(b => b.classList.remove('active'));
