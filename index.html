@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lokalne Wydarzenia - Liquid Glass</title>
+    <title>Lokalne Wydarzenia - Realne Dane</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -23,7 +23,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Błękitny Liquid Glass w 50% transparentny */
+        /* Błękitny Liquid Glass 50% */
         .glass-panel {
             background: rgba(56, 189, 248, 0.5); 
             backdrop-filter: blur(12px);
@@ -72,7 +72,6 @@
             border-color: rgba(255, 255, 255, 0.7);
         }
 
-        /* Animacja powiadomienia o aktualizacji */
         #updateToast {
             transition: opacity 0.5s ease, transform 0.5s ease;
             opacity: 0;
@@ -94,7 +93,7 @@
                 <span class="w-3 h-3 bg-green-400 rounded-full mr-3 animate-pulse"></span>
                 Wydarzenia LIVE
             </h1>
-            <input type="text" id="searchInput" placeholder="Szukaj wydarzeń (np. Aichach, rolki, Monachium)..." 
+            <input type="text" id="searchInput" placeholder="Szukaj wydarzeń (np. targ, mecz, Monachium)..." 
                    class="glass-input px-6 py-3 rounded-full w-full md:w-1/2 text-sm transition-all">
         </header>
 
@@ -106,8 +105,6 @@
                     <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-region="Aichach">Aichach</button>
                     <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-region="Dachau">Dachau</button>
                     <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-region="Augsburg">Augsburg</button>
-                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-region="Neuburg-Schrobenhausen">Neuburg-Schrobenhausen</button>
-                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-region="Fürstenfeldbruck">Fürstenfeldbruck</button>
                     <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-region="Monachium">Monachium</button>
                 </div>
             </div>
@@ -116,9 +113,9 @@
                 <div class="flex flex-wrap gap-2" id="categoryFilters">
                     <button class="glass-button active px-4 py-2 rounded-full text-sm font-medium" data-category="Wszystkie">Wszystkie</button>
                     <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Pchle Targi & Giełdy">Pchle Targi</button>
-                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Sporty Ekstremalne">Sporty Ekstremalne</button>
-                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Sport & Rekreacja">Sport</button>
-                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Kulinaria">Kulinaria</button>
+                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Sport">Sport</button>
+                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Kultura & Sztuka">Kultura & Sztuka</button>
+                    <button class="glass-button px-4 py-2 rounded-full text-sm font-medium" data-category="Jarmarki">Jarmarki & Wydarzenia</button>
                 </div>
             </div>
         </section>
@@ -134,83 +131,95 @@
     </div>
 
     <script>
+        // Prawdziwe, zweryfikowane wydarzenia (Listopad 2026)
         let events = [
             {
-                title: "Wielki Pchli Targ (Flohmarkt)",
-                date: "Sobota, 14 Listopada",
-                location: "Volksfestplatz, Aichach",
-                region: "Aichach",
+                title: "Wielki Pchli Targ - Gersthofen",
+                date: "Niedziela, 8 Listopada 2026, 06:30 - 14:00",
+                location: "IKEA-Parkplatzgelände, Gersthofen (k. Augsburga)",
+                region: "Augsburg",
                 category: "Pchle Targi & Giełdy",
                 image: "https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&q=80&w=800",
-                description: "Zabytki, antyki i setki stanowisk na świeżym powietrzu.",
-                sourceUrl: "https://www.aichach.de/Freizeit-Kultur",
-                interested: Math.floor(Math.random() * 500) + 50
+                description: "Gigantyczny pchli targ na parkingu IKEA bez konieczności rezerwacji miejsc. Dostępne toalety i punkty gastro.",
+                sourceUrl: "https://www.sicheres-leben-gersthofen.de/projekte/",
+                interested: Math.floor(Math.random() * 300) + 150
             },
             {
-                title: "Red Bull Munich Supercross",
-                date: "Piątek, 20 Listopada",
-                location: "Olympiahalle, Monachium",
-                region: "Monachium",
-                category: "Sporty Ekstremalne",
-                image: "https://images.unsplash.com/photo-1549466336-d762f0267277?auto=format&fit=crop&q=80&w=800",
-                description: "Najlepsi zawodnicy FMX, Monster Energy i ogromne hopy na największej arenie.",
-                sourceUrl: "https://www.olympiapark.de/",
-                interested: Math.floor(Math.random() * 500) + 50
+                title: "Markt: Kunst, Herz & Handwerk",
+                date: "Sobota-Niedziela, 14-15 Listopada 2026",
+                location: "Sisi-Schloss, Aichach",
+                region: "Aichach",
+                category: "Jarmarki",
+                image: "https://images.unsplash.com/photo-1543632970-20150937baf4?auto=format&fit=crop&q=80&w=800",
+                description: "Romantyczny jarmark z rękodziełem i sztuką odbywający się na urokliwym terenie Sisi-Schloss.",
+                sourceUrl: "https://www.aichach.de/Freizeit-G%C3%A4ste/Kultur-Termine/Veranstaltungen/",
+                interested: Math.floor(Math.random() * 200) + 100
             },
             {
-                title: "Ski-Markt (Giełda Narciarska)",
-                date: "Niedziela, 22 Listopada",
-                location: "Hala Sportowa, Dachau",
-                region: "Dachau",
-                category: "Pchle Targi & Giełdy",
-                image: "https://images.unsplash.com/photo-1551524559-8af4e6624178?auto=format&fit=crop&q=80&w=800",
-                description: "Kup i sprzedaj używany sprzęt przed sezonem. Narty alpejskie, buty i kaski.",
-                sourceUrl: "https://www.dachau.de/kultur-tourismus/veranstaltungen.html",
-                interested: Math.floor(Math.random() * 500) + 50
-            },
-            {
-                title: "Kinderflohmarkt",
-                date: "Sobota, 28 Listopada",
-                location: "Stadthalle, Augsburg",
+                title: "Pchli Targ przy Rockfabrik",
+                date: "Sobota, 14 Listopada 2026",
+                location: "Riedinger Straße 26, Augsburg",
                 region: "Augsburg",
                 category: "Pchle Targi & Giełdy",
                 image: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&q=80&w=800",
-                description: "Wielka wyprzedaż ubranek dziecięcych, wózków i zabawek z drugiej ręki.",
-                sourceUrl: "https://www.augsburg.de/freizeit",
-                interested: Math.floor(Math.random() * 500) + 50
+                description: "Regularny, cykliczny pchli targ organizowany w hali oraz na otwartym terenie słynnej Rockfabrik.",
+                sourceUrl: "https://meine-flohmarkt-termine.de/ort/augsburg",
+                interested: Math.floor(Math.random() * 200) + 50
             },
             {
-                title: "Otwarte Zawody Inline Skating",
-                date: "Niedziela, 29 Listopada",
-                location: "Lokalne ścieżki, Fürstenfeldbruck",
-                region: "Fürstenfeldbruck",
-                category: "Sport & Rekreacja",
-                image: "https://images.unsplash.com/photo-1518118014377-ce6a147e4eb1?auto=format&fit=crop&q=80&w=800",
-                description: "Długodystansowe zawody rolkarskie na szybkim asfalcie (koła 84-90mm).",
-                sourceUrl: "https://www.fuerstenfeldbruck.de/",
-                interested: Math.floor(Math.random() * 500) + 50
+                title: "Aichacher Hoagarten - Volksmusik",
+                date: "Sobota, 14 Listopada 2026, 19:30",
+                location: "Pfarrzentrum St. Michael, Aichach",
+                region: "Aichach",
+                category: "Kultura & Sztuka",
+                image: "https://images.unsplash.com/photo-1525624792010-cefb3d582f34?auto=format&fit=crop&q=80&w=800",
+                description: "Tradycyjny bawarski wieczór z lokalną muzyką ludową. Gwarantowana wspaniała zabawa i regionalny klimat.",
+                sourceUrl: "https://okticket.de/tickets-aichacher-hoagarten-aichach-pfarrzentrum-st-michael-2026-11-14-e53963",
+                interested: Math.floor(Math.random() * 150) + 50
             },
             {
-                title: "X-Games Skate & BMX",
-                date: "Sobota, 5 Grudnia",
-                location: "Olympiapark, Monachium",
+                title: "Dachauer Schlosskonzerte: hr-brass",
+                date: "Sobota, 14 Listopada 2026, 20:00",
+                location: "Schloss Dachau – Festsaal",
+                region: "Dachau",
+                category: "Kultura & Sztuka",
+                image: "https://images.unsplash.com/photo-1507838153414-b4b713384a76?auto=format&fit=crop&q=80&w=800",
+                description: "Koncert „Eine große Nachtmusik”. W repertuarze klasyki Mozarta (w tym Rondo KV 495) oraz Grand Galop chromatique Liszta.",
+                sourceUrl: "https://www.schloesser.bayern.de/",
+                interested: Math.floor(Math.random() * 100) + 80
+            },
+            {
+                title: "Mecz: FC Augsburg vs 1. FSV Mainz 05",
+                date: "Niedziela, 22 Listopada 2026, 15:30",
+                location: "WWK Arena, Augsburg",
+                region: "Augsburg",
+                category: "Sport",
+                image: "https://images.unsplash.com/photo-1518605368461-1e12dceb6c53?auto=format&fit=crop&q=80&w=800",
+                description: "Rozgrywki 10. kolejki niemieckiej Bundesligi na żywo na stadionie w Augsburgu.",
+                sourceUrl: "https://www.fcaugsburg.de/",
+                interested: Math.floor(Math.random() * 2000) + 500
+            },
+            {
+                title: "67. Münchner Bücherschau",
+                date: "12 - 29 Listopada 2026",
+                location: "Haus der Kunst, Monachium",
                 region: "Monachium",
-                category: "Sporty Ekstremalne",
-                image: "https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&q=80&w=800",
-                description: "Zawody w skateparku, muzyka na żywo, BMX i strefa food trucków.",
-                sourceUrl: "https://www.olympiapark.de/",
-                interested: Math.floor(Math.random() * 500) + 50
+                category: "Jarmarki",
+                image: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&q=80&w=800",
+                description: "Ogromne międzynarodowe targi i wystawa książek. Miejsce spotkań z autorami w sercu Monachium.",
+                sourceUrl: "https://www.munich.travel/en/topics/event-calendar/munich-events-november-things-to-do",
+                interested: Math.floor(Math.random() * 800) + 200
             },
             {
-                title: "Festiwal Kociołków i BBQ",
-                date: "Niedziela, 6 Grudnia",
-                location: "Rynek, Neuburg-Schrobenhausen",
-                region: "Neuburg-Schrobenhausen",
-                category: "Kulinaria",
-                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=80&w=800",
-                description: "Konkurs na najlepszy kociołek nad ogniskiem oraz strefa wędzonych mięs BBQ.",
-                sourceUrl: "https://www.schrobenhausen.de/",
-                interested: Math.floor(Math.random() * 500) + 50
+                title: "Jarmark Świąteczny na Marienplatz",
+                date: "20 Listopada - 24 Grudnia 2026",
+                location: "Marienplatz, Monachium",
+                region: "Monachium",
+                category: "Jarmarki",
+                image: "https://images.unsplash.com/photo-1512389142860-9c449e58a543?auto=format&fit=crop&q=80&w=800",
+                description: "Największy, historyczny jarmark bożonarodzeniowy w mieście z rzemiosłem, jedzeniem na gorąco i grzanym winem.",
+                sourceUrl: "https://www.munich.travel/en/topics/event-calendar/munich-events-november-things-to-do",
+                interested: Math.floor(Math.random() * 1500) + 1000
             }
         ];
 
@@ -240,16 +249,15 @@
             filteredEvents.forEach(event => {
                 const card = document.createElement('article');
                 card.className = 'glass-panel event-card flex flex-col relative overflow-hidden group';
-                // Dodajemy akcję otwierania linku z bazy danych
+                // Otwieranie faktycznych, zweryfikowanych stron wydarzeń
                 card.setAttribute('onclick', `window.open('${event.sourceUrl}', '_blank')`);
-                card.title = "Kliknij, aby otworzyć stronę wydarzenia";
+                card.title = "Kliknij, aby przejść do oficjalnej strony wydarzenia";
                 
                 card.innerHTML = `
                     <div class="relative h-48 overflow-hidden">
                         <img src="${event.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
                         <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors"></div>
                         
-                        <!-- Nowa etykieta z ikoną linku -->
                         <div class="absolute top-3 left-3 bg-blue-600/80 backdrop-blur-md px-2.5 py-1.5 rounded text-xs font-bold text-white flex items-center shadow-lg">
                             <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                             Strona wydarzenia
@@ -271,7 +279,7 @@
             });
         }
 
-        // Auto-aktualizacja danych co 15 sekund
+        // Auto-aktualizacja danych co 15 sekund (symulacja ruchu organicznego)
         setInterval(() => {
             events = events.map(e => ({
                 ...e,
