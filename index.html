@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lokalne Wydarzenia - Gemini Live</title>
+    <title>Lokalne Wydarzenia - Liquid Glass</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            /* Ciemniejsze tło, aby jasnoniebieskie karty lepiej kontrastowały */
             background: linear-gradient(45deg, #0f172a, #1e1b4b, #000000, #172554);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
@@ -24,9 +23,9 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Nowy motyw: Błękitny w 50% transparentny */
+        /* Błękitny Liquid Glass w 50% transparentny */
         .glass-panel {
-            background: rgba(56, 189, 248, 0.5); /* Błękitny, 50% przezroczystości */
+            background: rgba(56, 189, 248, 0.5); 
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.4);
@@ -92,10 +91,10 @@
         
         <header class="glass-panel p-6 flex flex-col md:flex-row justify-between items-center gap-6">
             <h1 class="text-3xl font-extrabold tracking-wider text-white drop-shadow-md flex items-center">
-                <span class="w-3 h-3 bg-red-500 rounded-full mr-3 animate-pulse"></span>
+                <span class="w-3 h-3 bg-green-400 rounded-full mr-3 animate-pulse"></span>
                 Wydarzenia LIVE
             </h1>
-            <input type="text" id="searchInput" placeholder="Szukaj wydarzeń..." 
+            <input type="text" id="searchInput" placeholder="Szukaj wydarzeń (np. Aichach, rolki, Monachium)..." 
                    class="glass-input px-6 py-3 rounded-full w-full md:w-1/2 text-sm transition-all">
         </header>
 
@@ -144,6 +143,7 @@
                 category: "Pchle Targi & Giełdy",
                 image: "https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&q=80&w=800",
                 description: "Zabytki, antyki i setki stanowisk na świeżym powietrzu.",
+                sourceUrl: "https://www.aichach.de/Freizeit-Kultur",
                 interested: Math.floor(Math.random() * 500) + 50
             },
             {
@@ -154,6 +154,7 @@
                 category: "Sporty Ekstremalne",
                 image: "https://images.unsplash.com/photo-1549466336-d762f0267277?auto=format&fit=crop&q=80&w=800",
                 description: "Najlepsi zawodnicy FMX, Monster Energy i ogromne hopy na największej arenie.",
+                sourceUrl: "https://www.olympiapark.de/",
                 interested: Math.floor(Math.random() * 500) + 50
             },
             {
@@ -164,6 +165,7 @@
                 category: "Pchle Targi & Giełdy",
                 image: "https://images.unsplash.com/photo-1551524559-8af4e6624178?auto=format&fit=crop&q=80&w=800",
                 description: "Kup i sprzedaj używany sprzęt przed sezonem. Narty alpejskie, buty i kaski.",
+                sourceUrl: "https://www.dachau.de/kultur-tourismus/veranstaltungen.html",
                 interested: Math.floor(Math.random() * 500) + 50
             },
             {
@@ -174,6 +176,7 @@
                 category: "Pchle Targi & Giełdy",
                 image: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&q=80&w=800",
                 description: "Wielka wyprzedaż ubranek dziecięcych, wózków i zabawek z drugiej ręki.",
+                sourceUrl: "https://www.augsburg.de/freizeit",
                 interested: Math.floor(Math.random() * 500) + 50
             },
             {
@@ -184,6 +187,7 @@
                 category: "Sport & Rekreacja",
                 image: "https://images.unsplash.com/photo-1518118014377-ce6a147e4eb1?auto=format&fit=crop&q=80&w=800",
                 description: "Długodystansowe zawody rolkarskie na szybkim asfalcie (koła 84-90mm).",
+                sourceUrl: "https://www.fuerstenfeldbruck.de/",
                 interested: Math.floor(Math.random() * 500) + 50
             },
             {
@@ -194,6 +198,7 @@
                 category: "Sporty Ekstremalne",
                 image: "https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&q=80&w=800",
                 description: "Zawody w skateparku, muzyka na żywo, BMX i strefa food trucków.",
+                sourceUrl: "https://www.olympiapark.de/",
                 interested: Math.floor(Math.random() * 500) + 50
             },
             {
@@ -204,6 +209,7 @@
                 category: "Kulinaria",
                 image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=80&w=800",
                 description: "Konkurs na najlepszy kociołek nad ogniskiem oraz strefa wędzonych mięs BBQ.",
+                sourceUrl: "https://www.schrobenhausen.de/",
                 interested: Math.floor(Math.random() * 500) + 50
             }
         ];
@@ -216,13 +222,6 @@
         const searchInput = document.getElementById('searchInput');
         const toast = document.getElementById('updateToast');
 
-        // Funkcja ładująca wydarzenie w Google Gemini
-        window.openInGemini = function(title, location, date, category) {
-            const prompt = `Jako asystent AI przygotuj mi rozbudowany opis lokalnego wydarzenia. Tytuł: "${title}". Wydarzenie odbędzie się ${date} w lokalizacji: ${location}. Kategoria: ${category}. Podaj mi ciekawostki na temat tego typu imprez, na co warto zwrócić uwagę, co ze sobą zabrać i jak najlepiej się przygotować.`;
-            const geminiUrl = `https://gemini.google.com/app?q=${encodeURIComponent(prompt)}`;
-            window.open(geminiUrl, '_blank');
-        };
-
         function renderEvents() {
             grid.innerHTML = '';
             
@@ -234,35 +233,37 @@
             });
 
             if (filteredEvents.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-10 text-white font-bold">Brak wyników.</div>`;
+                grid.innerHTML = `<div class="col-span-full text-center py-10 text-white font-bold">Brak wyników dla podanych kryteriów.</div>`;
                 return;
             }
 
             filteredEvents.forEach(event => {
                 const card = document.createElement('article');
-                // Podpinamy funkcję Gemini do kliknięcia całej karty
                 card.className = 'glass-panel event-card flex flex-col relative overflow-hidden group';
-                card.setAttribute('onclick', `openInGemini('${event.title}', '${event.location}', '${event.date}', '${event.category}')`);
-                card.title = "Kliknij, aby wygenerować opis w Gemini";
+                // Dodajemy akcję otwierania linku z bazy danych
+                card.setAttribute('onclick', `window.open('${event.sourceUrl}', '_blank')`);
+                card.title = "Kliknij, aby otworzyć stronę wydarzenia";
                 
                 card.innerHTML = `
                     <div class="relative h-48 overflow-hidden">
-                        <img src="${event.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <img src="${event.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">
                         <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors"></div>
-                        <div class="absolute top-2 left-2 bg-blue-600/80 backdrop-blur-md px-2 py-1 rounded text-xs font-bold text-white flex items-center shadow-lg">
-                            <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
-                            Otwórz w Gemini
+                        
+                        <!-- Nowa etykieta z ikoną linku -->
+                        <div class="absolute top-3 left-3 bg-blue-600/80 backdrop-blur-md px-2.5 py-1.5 rounded text-xs font-bold text-white flex items-center shadow-lg">
+                            <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            Strona wydarzenia
                         </div>
                     </div>
                     <div class="p-5 flex-1 flex flex-col">
-                        <span class="text-xs font-black uppercase text-blue-900 bg-white/70 inline-block px-2 py-1 rounded-sm mb-3 self-start shadow-sm">${event.region}</span>
-                        <h2 class="text-lg font-bold text-white mb-2 leading-tight drop-shadow-md">${event.title}</h2>
+                        <span class="text-xs font-black uppercase text-blue-900 bg-white/80 inline-block px-2 py-1 rounded-sm mb-3 self-start shadow-sm">${event.region}</span>
+                        <h2 class="text-lg font-bold text-white mb-2 leading-tight drop-shadow-md group-hover:text-blue-200 transition-colors">${event.title}</h2>
                         <p class="text-sm text-white/90 mb-4 line-clamp-2">${event.description}</p>
                         
                         <div class="mt-auto space-y-2 pt-3 border-t border-white/30 text-sm font-medium text-white/90">
                             <div>📅 ${event.date}</div>
                             <div>📍 ${event.location}</div>
-                            <div class="text-green-300 font-bold pt-1">🔥 Zainteresowanych: ${event.interested} osób</div>
+                            <div class="text-green-300 font-bold pt-1">🔥 Zainteresowanych: <span class="interested-count">${event.interested}</span> osób</div>
                         </div>
                     </div>
                 `;
@@ -272,23 +273,20 @@
 
         // Auto-aktualizacja danych co 15 sekund
         setInterval(() => {
-            // Symulacja pobierania nowych danych (np. zmiana liczby zainteresowanych)
             events = events.map(e => ({
                 ...e,
-                interested: e.interested + Math.floor(Math.random() * 5) - 1 // +/- wahania
+                interested: Math.max(0, e.interested + Math.floor(Math.random() * 7) - 2)
             }));
             
-            // Wyświetl toast
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 2500);
 
-            // Przerenderuj widok, jeśli użytkownik akurat nie wpisuje w pole wyszukiwania
             if(document.activeElement !== searchInput) {
                 renderEvents();
             }
         }, 15000);
 
-        // Nasłuchiwanie filtrów
+        // Filtry
         document.querySelectorAll('#regionFilters button').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 document.querySelectorAll('#regionFilters button').forEach(b => b.classList.remove('active'));
