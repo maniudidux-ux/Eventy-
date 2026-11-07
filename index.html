@@ -10,7 +10,6 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            /* Szare, stonowane tło w stylu Slate/Zinc */
             background: linear-gradient(45deg, #0f172a, #1f2937, #111827, #374151);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
@@ -37,7 +36,7 @@
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             color: #d1d5db;
         }
 
@@ -100,7 +99,6 @@
         </header>
 
         <section class="glass-panel p-6 space-y-6">
-            <!-- Regiony -->
             <div>
                 <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 ml-2 drop-shadow-md">Wybierz Region</h3>
                 <div class="flex flex-wrap gap-2" id="regionFilters">
@@ -113,7 +111,6 @@
                 </div>
             </div>
             
-            <!-- Kategorie -->
             <div>
                 <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 ml-2 drop-shadow-md">Wybierz Kategorię</h3>
                 <div class="flex flex-wrap gap-2" id="categoryFilters">
@@ -128,20 +125,29 @@
             </div>
         </section>
 
-        <!-- Pusta siatka do wygenerowania kart -->
+        <!-- Sekcja wyników -->
         <main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="eventsGrid"></main>
 
     </div>
 
-    <!-- Dyskretne powiadomienie o "żywych" aktualizacjach -->
+    <!-- Pływające powiadomienie -->
     <div id="updateToast" class="fixed bottom-6 right-6 glass-panel px-6 py-3 text-sm font-bold text-white z-50 flex items-center">
         <svg class="w-4 h-4 mr-2 animate-spin text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-        Aktualizacja zainteresowania...
+        Aktualizacja statystyk...
     </div>
 
     <script>
-        // Rozbudowana baza wydarzeń dopasowana sztywno do przycisków
-        let events = [
+        // System raportowania błędów krytycznych na ekran - świetne do diagnozy na telefonie
+        window.onerror = function(message, source, lineno) {
+            var grid = document.getElementById('eventsGrid');
+            if(grid) {
+                grid.innerHTML = '<div class="col-span-full bg-red-900/80 p-6 rounded-xl border border-red-500 text-white font-bold text-center">Błąd przeglądarki: ' + message + ' (linia ' + lineno + '). Odśwież stronę.</div>';
+            }
+            return true;
+        };
+
+        // Główna baza danych
+        var events = [
             {
                 title: "Dachauer Hallenflohmarkt",
                 date: "Sobota, 14 Listopada 2026",
@@ -164,5 +170,271 @@
                 image: "https://images.unsplash.com/photo-1551524559-8af4e6624178?auto=format&fit=crop&q=80&w=800",
                 description: "Gigantyczna alpejska giełda sprzętu zimowego przed otwarciem stoków. Narty, snowboardy, odzież termiczna.",
                 sourceUrl: "https://www.kempten.de/",
-                interested
+                interested: 600
+            },
+            {
+                title: "ADAC Supercross München",
+                date: "Sobota, 21 Listopada 2026",
+                sortDate: "2026-11-21",
+                location: "Olympiahalle, Monachium",
+                region: "Monachium",
+                category: "Motoryzacja & MMA",
+                image: "https://images.unsplash.com/photo-1549466336-d762f0267277?auto=format&fit=crop&q=80&w=800",
+                description: "Zawody Supercross oraz potężne pokazy FMX pod dachem hali. Zapach spalin i ryk silników w sercu Bawarii.",
+                sourceUrl: "https://www.olympiapark.de/",
+                interested: 3100
+            },
+            {
+                title: "Mecz: FC Augsburg vs 1. FSV Mainz",
+                date: "Niedziela, 22 Listopada 2026",
+                sortDate: "2026-11-22",
+                location: "WWK Arena, Augsburg",
+                region: "Augsburg",
+                category: "Sport & Skoki",
+                image: "https://images.unsplash.com/photo-1518605368461-1e12dceb6c53?auto=format&fit=crop&q=80&w=800",
+                description: "Ligowe starcie Bundesligi na żywo na augsburskim stadionie. Bardzo ważne punkty dla miejscowej drużyny.",
+                sourceUrl: "https://www.fcaugsburg.de/",
+                interested: 4500
+            },
+            {
+                title: "Rathausplatz - Otwarcie Sezonu",
+                date: "Poniedziałek, 23 Listopada 2026",
+                sortDate: "2026-11-23",
+                location: "Rathausplatz, Augsburg",
+                region: "Augsburg",
+                category: "Jarmarki & Gminne",
+                image: "https://images.unsplash.com/photo-1512389142860-9c449e58a543?auto=format&fit=crop&q=80&w=800",
+                description: "Gminne otwarcie słynnego jarmarku z przemówieniem burmistrza, koncertami i rozświetleniem zabytkowej zabudowy.",
+                sourceUrl: "https://www.augsburger-christkindlesmarkt.com/",
+                interested: 2100
+            },
+            {
+                title: "Tollwood Winterfestival",
+                date: "26 Listopada - 31 Grudnia 2026",
+                sortDate: "2026-11-26",
+                location: "Theresienwiese, Monachium",
+                region: "Monachium",
+                category: "Kulinaria",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=80&w=800",
+                description: "Wielki alternatywny festiwal zimowy z niesamowitymi food truckami, ekologicznym jedzeniem ulicznym i muzyką na żywo.",
+                sourceUrl: "https://www.tollwood.de/",
+                interested: 5200
+            },
+            {
+                title: "Aichacher Christkindlmarkt",
+                date: "Piątek, 27 Listopada 2026",
+                sortDate: "2026-11-27",
+                location: "Rathausplatz, Aichach",
+                region: "Aichach & Dachau",
+                category: "Jarmarki & Gminne",
+                image: "https://images.unsplash.com/photo-1543632970-20150937baf4?auto=format&fit=crop&q=80&w=800",
+                description: "Oficjalne otwarcie gminnego jarmarku wokół ratusza. Lokalne władze otwierają wielki ratuszowy kalendarz adwentowy.",
+                sourceUrl: "https://www.aichach.de/",
+                interested: 1200
+            },
+            {
+                title: "Nürnberger Christkindlesmarkt",
+                date: "27 Listopada - 24 Grudnia 2026",
+                sortDate: "2026-11-27",
+                location: "Hauptmarkt, Norymberga",
+                region: "Norymberga",
+                category: "Jarmarki & Gminne",
+                image: "https://images.unsplash.com/photo-1618944883492-944a95a452db?auto=format&fit=crop&q=80&w=800",
+                description: "Najsłynniejszy historyczny jarmark w Niemczech. Gminne otwarcie, słynne frankońskie specjały i morze lampek.",
+                sourceUrl: "https://www.christkindlesmarkt.de/",
+                interested: 9500
+            },
+            {
+                title: "DroneArt Show München 2026",
+                date: "Wtorek, 1 Grudnia 2026",
+                sortDate: "2026-12-01",
+                location: "Olympiapark (Open-Air), Monachium",
+                region: "Monachium",
+                category: "Tech & E-sport",
+                image: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&q=80&w=800",
+                description: "Zjawiskowa technologiczna wystawa! Tysiące zsynchronizowanych dronów tworzących zaawansowane trójwymiarowe obrazy na niebie.",
+                sourceUrl: "https://thedroneartshow.com/muenchen/",
+                interested: 4200
+            },
+            {
+                title: "ITCS Tech & E-sport Hub",
+                date: "Piątek, 4 Grudnia 2026",
+                sortDate: "2026-12-04",
+                location: "MOC Event Center, Monachium",
+                region: "Monachium",
+                category: "Tech & E-sport",
+                image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800",
+                description: "Festiwal nowinek technologicznych, targi IT i ogromna strefa e-sportowa dla graczy z PC i konsolami nowej generacji.",
+                sourceUrl: "https://it-cs.io/en/",
+                interested: 1950
+            },
+            {
+                title: "We Love MMA 85 (Oktagon)",
+                date: "Sobota, 12 Grudnia 2026",
+                sortDate: "2026-12-12",
+                location: "Olympiahalle, Monachium",
+                region: "Monachium",
+                category: "Motoryzacja & MMA",
+                image: "https://images.unsplash.com/photo-1599586120429-48281b6f0ece?auto=format&fit=crop&q=80&w=800",
+                description: "Czołowa, brutalna liga mieszanych sztuk walki. Pojedynki w pełnym kontakcie o pasy mistrzowskie w wielkiej klatce.",
+                sourceUrl: "https://www.olympiapark.de/",
+                interested: 2800
+            },
+            {
+                title: "Riesenflohmarkt METRO Augsburg",
+                date: "Niedziela, 13 Grudnia 2026",
+                sortDate: "2026-12-13",
+                location: "Parkplatz METRO, Augsburg",
+                region: "Augsburg",
+                category: "Pchle Targi",
+                image: "https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&q=80&w=800",
+                description: "Olbrzymi targ staroci (Gero's Flohmarkt) na terenie parkingu przed METRO. Świetna okazja przed Świętami.",
+                sourceUrl: "https://www.gerosflohmarkt.de/",
+                interested: 850
+            },
+            {
+                title: "75. Vierschanzentournee (Skoki)",
+                date: "Niedziela, 27 Grudnia 2026",
+                sortDate: "2026-12-27",
+                location: "ORLEN Arena, Oberstdorf",
+                region: "Alpy",
+                category: "Sport & Skoki",
+                image: "https://images.unsplash.com/photo-1520119859551-78df31cbacdf?auto=format&fit=crop&q=80&w=800",
+                description: "Wielkie sportowe otwarcie 75. Turnieju Czterech Skoczni. Oficjalne treningi i kwalifikacje gigantów światowego narciarstwa.",
+                sourceUrl: "https://www.orlen-arena.de/",
+                interested: 8500
+            },
+            {
+                title: "Neujahrsskispringen - GaPa",
+                date: "Piątek, 1 Stycznia 2027",
+                sortDate: "2027-01-01",
+                location: "Garmisch-Partenkirchen",
+                region: "Alpy",
+                category: "Sport & Skoki",
+                image: "https://images.unsplash.com/photo-1551524559-8af4e6624178?auto=format&fit=crop&q=80&w=800",
+                description: "Legendarny, noworoczny konkurs skoków narciarskich (Vierschanzentournee) rozgrywany u stóp pasma górskiego Wetterstein.",
+                sourceUrl: "https://www.vierschanzentournee.com/",
+                interested: 9800
+            }
+        ];
+
+        var currentRegion = 'Wszystkie';
+        var currentCategory = 'Wszystkie';
+        var searchQuery = '';
+
+        function renderEvents() {
+            try {
+                var grid = document.getElementById('eventsGrid');
+                var searchInputObj = document.getElementById('searchInput');
                 
+                if (!grid) return;
+
+                // Bezpieczne filtrowanie danych
+                var filteredEvents = events.filter(function(item) {
+                    var matchRegion = (currentRegion === 'Wszystkie') || (item.region === currentRegion) || (currentRegion === 'Cała Bawaria');
+                    var matchCategory = (currentCategory === 'Wszystkie') || (item.category === currentCategory);
+                    var matchSearch = item.title.toLowerCase().includes(searchQuery) || 
+                                      item.location.toLowerCase().includes(searchQuery) ||
+                                      item.description.toLowerCase().includes(searchQuery);
+                    return matchRegion && matchCategory && matchSearch;
+                });
+
+                // Bezpieczne sortowanie (standardowe)
+                filteredEvents.sort(function(a, b) {
+                    if (a.sortDate > b.sortDate) return 1;
+                    if (a.sortDate < b.sortDate) return -1;
+                    return 0;
+                });
+
+                // Brak wyników
+                if (filteredEvents.length === 0) {
+                    grid.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400 font-bold tracking-widest uppercase">Brak wydarzeń dla tych kryteriów.</div>';
+                    return;
+                }
+
+                // Generowanie HTML jako tekst (najbardziej wydajne i bezbłędne dla przeglądarek mobilnych)
+                var htmlContent = '';
+                
+                filteredEvents.forEach(function(item) {
+                    htmlContent += '<article class="glass-panel event-card flex flex-col relative overflow-hidden group" onclick="window.open(\'' + item.sourceUrl + '\', \'_blank\')" title="Otwórz stronę">';
+                    htmlContent += '  <div class="relative h-52 overflow-hidden">';
+                    htmlContent += '      <img src="' + item.image + '" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy">';
+                    htmlContent += '      <div class="absolute inset-0 bg-black/50 group-hover:bg-black/20 transition-colors"></div>';
+                    htmlContent += '      <div class="absolute top-3 left-3 bg-gray-800/80 backdrop-blur-md px-3 py-1.5 rounded-sm text-xs font-bold text-gray-200 flex items-center shadow-lg border border-gray-500/30">';
+                    htmlContent += '          Sprawdź szczegóły';
+                    htmlContent += '      </div>';
+                    htmlContent += '  </div>';
+                    htmlContent += '  <div class="p-5 flex-1 flex flex-col">';
+                    htmlContent += '      <span class="text-xs font-black uppercase text-gray-900 bg-gray-300 inline-block px-2 py-1 rounded-sm mb-3 self-start shadow-sm tracking-wider">' + item.category + '</span>';
+                    htmlContent += '      <h2 class="text-xl font-bold text-white mb-2 leading-tight drop-shadow-md group-hover:text-gray-300 transition-colors">' + item.title + '</h2>';
+                    htmlContent += '      <p class="text-sm text-gray-400 mb-4 line-clamp-3 leading-relaxed">' + item.description + '</p>';
+                    htmlContent += '      <div class="mt-auto space-y-2 pt-4 border-t border-white/10 text-sm font-medium text-gray-300">';
+                    htmlContent += '          <div class="flex items-center"><span class="w-4 text-center mr-2">📅</span> ' + item.date + '</div>';
+                    htmlContent += '          <div class="flex items-center"><span class="w-4 text-center mr-2">📍</span> ' + item.location + '</div>';
+                    htmlContent += '          <div class="text-gray-200 font-bold pt-2 flex items-center">';
+                    htmlContent += '              <span class="w-2 h-2 bg-gray-400 rounded-full mr-2 animate-pulse"></span>🔥 Hype: <span class="ml-1 text-white">' + item.interested + '</span>';
+                    htmlContent += '          </div>';
+                    htmlContent += '      </div>';
+                    htmlContent += '  </div>';
+                    htmlContent += '</article>';
+                });
+
+                grid.innerHTML = htmlContent;
+
+            } catch (err) {
+                var errorGrid = document.getElementById('eventsGrid');
+                if(errorGrid) {
+                    errorGrid.innerHTML = '<div class="col-span-full bg-red-900/80 p-6 rounded-xl border border-red-500 text-white font-bold text-center">Błąd renderowania: ' + err.message + '</div>';
+                }
+            }
+        }
+
+        // Animacja powiadomienia i przeliczanie danych pozbawiona błędogennych nowinek
+        setInterval(function() {
+            events.forEach(function(item) {
+                item.interested = Math.max(0, item.interested + Math.floor(Math.random() * 15) - 5);
+            });
+            
+            var toastObj = document.getElementById('updateToast');
+            if(toastObj) {
+                toastObj.classList.add('show');
+                setTimeout(function() { toastObj.classList.remove('show'); }, 2500);
+            }
+
+            if(document.activeElement !== document.getElementById('searchInput')) {
+                renderEvents();
+            }
+        }, 15000);
+
+        // Obsługa interfejsu (Filtry & Wyszukiwarka) podłączona dopiero, gdy struktura istnieje
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            document.querySelectorAll('#regionFilters button').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    document.querySelectorAll('#regionFilters button').forEach(function(b) { b.classList.remove('active'); });
+                    e.target.classList.add('active');
+                    currentRegion = e.target.getAttribute('data-region');
+                    renderEvents();
+                });
+            });
+
+            document.querySelectorAll('#categoryFilters button').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    document.querySelectorAll('#categoryFilters button').forEach(function(b) { b.classList.remove('active'); });
+                    e.target.classList.add('active');
+                    currentCategory = e.target.getAttribute('data-category');
+                    renderEvents();
+                });
+            });
+
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                searchQuery = e.target.value.toLowerCase();
+                renderEvents();
+            });
+
+            // Start aplikacji
+            renderEvents();
+        });
+    </script>
+</body>
+</html>
